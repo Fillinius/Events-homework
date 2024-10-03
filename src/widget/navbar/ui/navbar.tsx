@@ -2,9 +2,7 @@ import { AuthBtn, AuthBtnProp } from '@/features/auth/ui/authBtn'
 import Link from 'next/link'
 import React from 'react'
 
-export const NavBar = ({ isAuth }: AuthBtnProp) => {
-  console.log(isAuth)
-
+export const NavBar = ({ type, user }: { type: string; user: string }) => {
   return (
     <>
       <nav className="bg-white">
@@ -68,20 +66,29 @@ export const NavBar = ({ isAuth }: AuthBtnProp) => {
                   alt="Your Company"
                 />
               </div>
-              <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-4">
-                  {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-                  <Link
-                    href="/events/create"
-                    className="rounded-md bg-green-500 px-3 py-2 text-sm font-medium text-white"
-                    aria-current="page"
-                  >
-                    Создать событие
-                  </Link>
+              {type === 'authenticated' && (
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-4">
+                    {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
+                    <Link
+                      href="/events/create"
+                      className="rounded-md bg-green-500 px-3 py-2 text-sm font-medium text-white"
+                      aria-current="page"
+                    >
+                      Создать событие
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-            {isAuth ? <AuthBtn isAuth /> : <AuthBtn isAuth />}
+            {type === 'authenticated' ? (
+              <div className="flex">
+                <p>{user}</p>
+                <AuthBtn isAuth={true} />
+              </div>
+            ) : (
+              <AuthBtn isAuth={false} />
+            )}
           </div>
         </div>
 
