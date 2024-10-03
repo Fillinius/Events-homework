@@ -6,10 +6,11 @@ import React from 'react'
 
 export default function Home() {
   const { data, refetch } = trpc.event.findMany.useQuery()
+  const isAuth = false
 
   return (
     <>
-      <NavBar />
+      <NavBar isAuth={isAuth} />
       <ul>
         {data?.map((event) => (
           <li key={event.id} className="mb-6">
