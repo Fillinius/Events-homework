@@ -9,6 +9,7 @@ import React from 'react'
 export default function Home() {
   const { data, refetch } = trpc.event.findMany.useQuery()
   const session = useSession()
+  console.log(data)
 
   return (
     <>

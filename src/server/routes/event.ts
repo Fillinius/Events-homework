@@ -1,7 +1,11 @@
-import { CreateEventSchema, JoinEventSchema } from "@/shared/api";
-import { prisma } from "../db";
-import { isAuth, procedure, router } from "../trpc";
-import { z } from "zod";
+import {
+  CreateEventSchema,
+  JoinEventSchema,
+  LeaveEventSchema,
+} from '@/shared/api'
+import { prisma } from '../db'
+import { isAuth, procedure, router } from '../trpc'
+import { z } from 'zod'
 
 export const eventRouter = router({
   findMany: procedure.query(async ({ ctx: { user } }) => {
@@ -9,13 +13,42 @@ export const eventRouter = router({
       include: {
         participations: true,
       },
-    });
+    })
 
     return events.map(({ participations, ...event }) => ({
       ...event,
       isJoined: participations.some(({ userId }) => userId === user?.id),
-    }));
+    }))
   }),
+
+  leave: procedure
+    .input(LeaveEventSchema)
+    .use(isAuth)
+    .mutation(async ({ input }) => {
+      const events = await prisma.event.findMany({
+        include: {
+          participations: true,
+        },
+      })
+      // console.log(events)
+      // console.log(input)
+      // return prisma.participation.update({
+      //   where: {
+      //     eventId: input.id,
+      //   },
+      //   data: {
+      //     data.
+      //     },
+      //   },
+      return events.map(({ participations, ...event }) => ({
+        ...event,
+        isJoined: false,
+        participations: participations.filter(
+          ({ eventId }) => eventId !== input.eventId
+        ),
+      }))
+    }),
+
   findUnique: procedure
     .input(
       z.object({
@@ -40,8 +73,9 @@ export const eventRouter = router({
             },
           },
         },
-      });
+      })
     }),
+
   create: procedure
     .input(CreateEventSchema)
     .use(isAuth)
@@ -51,7 +85,7 @@ export const eventRouter = router({
           authorId: user.id,
           ...input,
         },
-      });
+      })
     }),
   join: procedure
     .input(JoinEventSchema)
@@ -62,6 +96,6 @@ export const eventRouter = router({
           eventId: input.id,
           userId: user.id,
         },
-      });
+      })
     }),
-});
+})
