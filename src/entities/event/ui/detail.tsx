@@ -1,6 +1,7 @@
-import { RouterOutput } from "@/shared/api";
+import { RouterOutput } from '@/shared/api'
+import { useRouter } from 'next/router'
 
-type EventDetailProps = NonNullable<RouterOutput["event"]["findUnique"]>;
+type EventDetailProps = NonNullable<RouterOutput['event']['findUnique']>
 
 export const EventDetail = ({
   title,
@@ -8,6 +9,7 @@ export const EventDetail = ({
   date,
   participations,
 }: EventDetailProps) => {
+  const router = useRouter()
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -46,11 +48,18 @@ export const EventDetail = ({
               Участники
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {participations.map(({ user }) => user.name).join(", ")}
+              {participations.map(({ user }) => user.name).join(', ')}
             </dd>
           </div>
         </dl>
       </div>
+      <button
+        type="button"
+        className="text-sm font-semibold leading-6 text-gray-900 border-2"
+        onClick={() => router.back()}
+      >
+        Отмена
+      </button>
     </div>
-  );
-};
+  )
+}
