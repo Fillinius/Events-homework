@@ -2,7 +2,13 @@ import { AuthBtn, AuthBtnProp } from '@/features/auth/ui/authBtn'
 import Link from 'next/link'
 import React from 'react'
 
-export const NavBar = ({ type, user }: { type: string; user: string }) => {
+export const NavBar = ({
+  type,
+  user,
+}: {
+  type: string
+  user: string | undefined
+}) => {
   return (
     <>
       <nav className="bg-white">
@@ -27,7 +33,7 @@ export const NavBar = ({ type, user }: { type: string; user: string }) => {
                   className="block h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >
@@ -46,7 +52,7 @@ export const NavBar = ({ type, user }: { type: string; user: string }) => {
                   className="hidden h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >

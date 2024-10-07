@@ -12,5 +12,5 @@ export const JoinEventSchema = z.object({
   id: z.number().int().positive(),
 })
 export const LeaveEventSchema = z.object({
-  eventId: z.number().int().positive(),
+  id: z.number().int().positive(),
 })

@@ -24,29 +24,10 @@ export const eventRouter = router({
   leave: procedure
     .input(LeaveEventSchema)
     .use(isAuth)
-    .mutation(async ({ input }) => {
-      const events = await prisma.event.findMany({
-        include: {
-          participations: true,
-        },
+    .mutation(async ({ input, ctx: { user } }) => {
+      return prisma.participation.delete({
+        where: { userId_eventId: { userId: user.id, eventId: input.id } },
       })
-      // console.log(events)
-      // console.log(input)
-      // return prisma.participation.update({
-      //   where: {
-      //     eventId: input.id,
-      //   },
-      //   data: {
-      //     data.
-      //     },
-      //   },
-      return events.map(({ participations, ...event }) => ({
-        ...event,
-        isJoined: false,
-        participations: participations.filter(
-          ({ eventId }) => eventId !== input.eventId
-        ),
-      }))
     }),
 
   findUnique: procedure

@@ -14,7 +14,7 @@ export const LeaveEventButton = ({
   const handleClick = () => {
     console.log('leave')
 
-    mutate({ eventId: eventId })
+    mutate({ id: eventId })
   }
 
   return (
