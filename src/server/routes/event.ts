@@ -35,7 +35,7 @@ export const eventRouter = router({
         id: z.number(),
         title: z.string(),
         description: z.string(),
-        data: z.coerce.date(),
+        date: z.coerce.date(),
       })
     )
     .use(isAuth)
@@ -45,7 +45,7 @@ export const eventRouter = router({
       return prisma.event.update({
         where: { id: input.id },
         data: {
-          date: input.data,
+          date: input.date,
           description: input.description,
           title: input.title,
         },

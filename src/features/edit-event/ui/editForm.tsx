@@ -1,7 +1,6 @@
-'use client'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateEventSchema, trpc } from '@/shared/api'
+import { CreateEventSchema } from '@/shared/api'
 import { useRouter } from 'next/router'
 
 type CreateEventFormProps = {
@@ -23,7 +22,6 @@ export const EditEventForm = ({
   function formatDate(data: string): string {
     return new Date(data).toISOString().split('T')[0]
   }
-  console.log(formatDate(date))
 
   const {
     register,
