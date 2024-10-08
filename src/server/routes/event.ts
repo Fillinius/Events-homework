@@ -65,6 +65,7 @@ export const eventRouter = router({
           title: true,
           description: true,
           date: true,
+          authorId: true,
           participations: {
             select: {
               user: {
