@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const CreateEventSchema = z.object({
   title: z.string().min(1),
-  description: z.string().optional(),
+  description: z.string().optional() || z.undefined,
   date: z.coerce.date(),
 })
 

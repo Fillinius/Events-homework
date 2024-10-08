@@ -29,6 +29,28 @@ export const eventRouter = router({
         where: { userId_eventId: { userId: user.id, eventId: input.id } },
       })
     }),
+  edit: procedure
+    .input(
+      z.object({
+        id: z.number(),
+        title: z.string(),
+        description: z.string(),
+        data: z.coerce.date(),
+      })
+    )
+    .use(isAuth)
+    .mutation(({ input }) => {
+      console.log('input', input)
+
+      return prisma.event.update({
+        where: { id: input.id },
+        data: {
+          date: input.data,
+          description: input.description,
+          title: input.title,
+        },
+      })
+    }),
 
   findUnique: procedure
     .input(
@@ -40,6 +62,7 @@ export const eventRouter = router({
     .query(({ input }) => {
       return prisma.event.findUnique({
         where: input,
+        // include: { author: true, participations: true },
         select: {
           title: true,
           description: true,
@@ -68,6 +91,7 @@ export const eventRouter = router({
         },
       })
     }),
+
   join: procedure
     .input(JoinEventSchema)
     .use(isAuth)

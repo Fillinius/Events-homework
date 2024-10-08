@@ -1,13 +1,30 @@
+'use client'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateEventSchema } from '@/shared/api'
+import { CreateEventSchema, trpc } from '@/shared/api'
 import { useRouter } from 'next/router'
 
 type CreateEventFormProps = {
   onSubmit: (data: CreateEventSchema) => void
+  title: string
+  description?: string
+  date: string
 }
 
-export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
+export const EditEventForm = ({
+  onSubmit,
+  title,
+  description,
+  date,
+}: CreateEventFormProps) => {
+  const router = useRouter()
+
+  //временная заглушка
+  function formatDate(data: string): string {
+    return new Date(data).toISOString().split('T')[0]
+  }
+  console.log(formatDate(date))
+
   const {
     register,
     handleSubmit,
@@ -15,9 +32,12 @@ export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
   } = useForm<CreateEventSchema>({
     resolver: zodResolver(CreateEventSchema),
     mode: 'onChange',
+    defaultValues: {
+      title,
+      description,
+      date: formatDate(date),
+    },
   })
-
-  const router = useRouter()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -27,7 +47,7 @@ export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
             Событие
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            Заполните форму для создания события
+            Форма для редактирования события
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -75,7 +95,7 @@ export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
                 </p>
               ) : (
                 <p className="mt-3 text-sm leading-6 text-gray-600">
-                  Напишите несколько предложений о предстоящем мероприятии
+                  Напишите несколько предложений о мероприятии
                 </p>
               )}
             </div>
@@ -117,7 +137,7 @@ export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Создать
+          Обновить
         </button>
       </div>
     </form>
