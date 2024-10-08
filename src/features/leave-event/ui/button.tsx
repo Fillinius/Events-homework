@@ -1,5 +1,4 @@
 import { trpc } from '@/shared/api'
-import { log } from 'node:console'
 
 type LeaveEventButtonProps = {
   eventId: number
@@ -12,8 +11,6 @@ export const LeaveEventButton = ({
 }: LeaveEventButtonProps) => {
   const { mutate } = trpc.event.leave.useMutation({ onSuccess })
   const handleClick = () => {
-    console.log('leave')
-
     mutate({ id: eventId })
   }
 

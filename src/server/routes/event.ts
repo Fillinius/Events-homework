@@ -35,13 +35,11 @@ export const eventRouter = router({
         id: z.number(),
         title: z.string(),
         description: z.string(),
-        date: z.coerce.date(),
+        date: z.coerce.date() || z.string(),
       })
     )
     .use(isAuth)
     .mutation(({ input }) => {
-      console.log('input', input)
-
       return prisma.event.update({
         where: { id: input.id },
         data: {

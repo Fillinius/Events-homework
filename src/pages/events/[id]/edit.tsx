@@ -3,11 +3,11 @@ import { CreateEventSchema, trpc } from '@/shared/api'
 import { useRouter } from 'next/router'
 
 export default function EditEvent() {
-  const { query, back } = useRouter()
+  const { query, push } = useRouter()
 
   const { mutate } = trpc.event.edit.useMutation({
     onSuccess: () => {
-      back
+      push(`/events/${query.id}`)
     },
   })
 
@@ -21,10 +21,7 @@ export default function EditEvent() {
   if (!data) {
     return 'No data'
   }
-  console.log(data)
-
   const handleSubmit = (dataEdit: CreateEventSchema) => {
-    console.log('click', dataEdit)
     mutate({
       ...dataEdit,
       id: Number(query.id),

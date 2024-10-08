@@ -67,7 +67,7 @@ export const EventDetail = ({
       <button
         type="button"
         className="text-sm font-semibold leading-6 py-1 px-3 bg-red-500 hover:bg-red-700 text-white"
-        onClick={() => router.back()}
+        onClick={() => router.push('/')}
       >
         Отмена
       </button>
