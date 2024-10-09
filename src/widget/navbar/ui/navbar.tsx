@@ -1,4 +1,4 @@
-import { AuthBtn, AuthBtnProp } from '@/features/auth/ui/authBtn'
+import { AuthBtn } from '@/features/auth/ui/authBtn'
 import Link from 'next/link'
 import React from 'react'
 

@@ -7,10 +7,17 @@ export const CreateEventSchema = z.object({
 })
 
 export type CreateEventSchema = z.infer<typeof CreateEventSchema>
+export type CreateUserSchema = z.infer<typeof CreateUserSchema>
 
 export const JoinEventSchema = z.object({
   id: z.number().int().positive(),
 })
 export const LeaveEventSchema = z.object({
   id: z.number().int().positive(),
+})
+
+export const CreateUserSchema = z.object({
+  email: z.string().min(1),
+  password: z.string().min(1),
+  name: z.string().min(1),
 })
