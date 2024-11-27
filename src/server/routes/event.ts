@@ -1,7 +1,11 @@
-import { CreateEventSchema, JoinEventSchema } from "@/shared/api";
-import { prisma } from "../db";
-import { isAuth, procedure, router } from "../trpc";
-import { z } from "zod";
+import {
+  CreateEventSchema,
+  JoinEventSchema,
+  LeaveEventSchema,
+} from '@/shared/api'
+import { prisma } from '../db'
+import { isAuth, procedure, router } from '../trpc'
+import { z } from 'zod'
 
 export const eventRouter = router({
   findMany: procedure.query(async ({ ctx: { user } }) => {
@@ -9,13 +13,43 @@ export const eventRouter = router({
       include: {
         participations: true,
       },
-    });
+    })
 
     return events.map(({ participations, ...event }) => ({
       ...event,
       isJoined: participations.some(({ userId }) => userId === user?.id),
-    }));
+    }))
   }),
+
+  leave: procedure
+    .input(LeaveEventSchema)
+    .use(isAuth)
+    .mutation(async ({ input, ctx: { user } }) => {
+      return prisma.participation.delete({
+        where: { userId_eventId: { userId: user.id, eventId: input.id } },
+      })
+    }),
+  edit: procedure
+    .input(
+      z.object({
+        id: z.number(),
+        title: z.string(),
+        description: z.string(),
+        date: z.coerce.date() || z.string(),
+      })
+    )
+    .use(isAuth)
+    .mutation(({ input }) => {
+      return prisma.event.update({
+        where: { id: input.id },
+        data: {
+          date: input.date,
+          description: input.description,
+          title: input.title,
+        },
+      })
+    }),
+
   findUnique: procedure
     .input(
       z.object({
@@ -26,10 +60,12 @@ export const eventRouter = router({
     .query(({ input }) => {
       return prisma.event.findUnique({
         where: input,
+        // include: { author: true, participations: true },
         select: {
           title: true,
           description: true,
           date: true,
+          authorId: true,
           participations: {
             select: {
               user: {
@@ -40,8 +76,9 @@ export const eventRouter = router({
             },
           },
         },
-      });
+      })
     }),
+
   create: procedure
     .input(CreateEventSchema)
     .use(isAuth)
@@ -51,8 +88,9 @@ export const eventRouter = router({
           authorId: user.id,
           ...input,
         },
-      });
+      })
     }),
+
   join: procedure
     .input(JoinEventSchema)
     .use(isAuth)
@@ -62,6 +100,6 @@ export const eventRouter = router({
           eventId: input.id,
           userId: user.id,
         },
-      });
+      })
     }),
-});
+})

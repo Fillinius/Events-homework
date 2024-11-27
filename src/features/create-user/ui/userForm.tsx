@@ -1,19 +1,19 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateEventSchema } from '@/shared/api'
+import { CreateUserSchema } from '@/shared/api'
 import { useRouter } from 'next/router'
 
-type CreateEventFormProps = {
-  onSubmit: (data: CreateEventSchema) => void
+type CreateUserFormProps = {
+  onSubmit: (data: CreateUserSchema) => void
 }
 
-export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
+export const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateEventSchema>({
-    resolver: zodResolver(CreateEventSchema),
+  } = useForm<CreateUserSchema>({
+    resolver: zodResolver(CreateUserSchema),
     mode: 'onChange',
   })
 
@@ -24,80 +24,79 @@ export const CreateEventForm = ({ onSubmit }: CreateEventFormProps) => {
       <div className="space-y-12">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Событие
+            Регистрация нового пользователя
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            Заполните форму для создания события
+            Заполните форму регистрации
           </p>
 
+          {/* Имя пользователя ////////////////////////*/}
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <label
-                htmlFor="title"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Название
+                Имя пользователя
               </label>
               <div className="mt-2">
                 <input
                   type="text"
-                  id="title"
-                  autoComplete="title"
+                  id="name"
+                  autoComplete="name"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  {...register('title')}
+                  {...register('name')}
                 />
               </div>
-              {errors.title && (
+              {errors.name && (
                 <p className="mt-3 text-sm leading-6 text-red-500">
-                  {errors.title.message}
+                  {errors.name.message}
                 </p>
               )}
             </div>
-
-            <div className="col-span-full">
+            {/* Ваш Email ///////////////////////////////////// */}
+            <div className="sm:col-span-4">
               <label
-                htmlFor="description"
+                htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Описание
-              </label>
-              <div className="mt-2">
-                <textarea
-                  id="description"
-                  rows={3}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  {...register('description')}
-                />
-              </div>
-              {errors.description ? (
-                <p className="mt-3 text-sm leading-6 text-red-500">
-                  {errors.description.message}
-                </p>
-              ) : (
-                <p className="mt-3 text-sm leading-6 text-gray-600">
-                  Напишите несколько предложений о предстоящем мероприятии
-                </p>
-              )}
-            </div>
-
-            <div className="col-span-full">
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Дата проведения
+                Ваш Email
               </label>
               <div className="mt-2">
                 <input
-                  id="date"
-                  type="date"
-                  className="block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  {...register('date')}
+                  type="email"
+                  id="email"
+                  autoComplete="email"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  {...register('email')}
                 />
               </div>
-              {errors.date && (
+              {errors.email && (
                 <p className="mt-3 text-sm leading-6 text-red-500">
-                  {errors.date.message}
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            {/* Password /////////////////////////// */}
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Придумайте пароль
+              </label>
+              <div className="mt-2">
+                <input
+                  type="password"
+                  id="password"
+                  autoComplete="password"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  {...register('password')}
+                />
+              </div>
+              {errors.password && (
+                <p className="mt-3 text-sm leading-6 text-red-500">
+                  {errors.password.message}
                 </p>
               )}
             </div>

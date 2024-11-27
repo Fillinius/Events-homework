@@ -1,19 +1,28 @@
-import { trpc } from "@/shared/api";
+import { trpc } from '@/shared/api'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 type JoinEventButtonProps = {
-  eventId: number;
-  onSuccess?: () => void;
-};
+  eventId: number
+  onSuccess?: () => void
+}
 
 export const JoinEventButton = ({
   eventId,
   onSuccess,
 }: JoinEventButtonProps) => {
-  const { mutate } = trpc.event.join.useMutation({ onSuccess });
+  const { mutate } = trpc.event.join.useMutation({ onSuccess })
+
+  const session = useSession()
+  const router = useRouter()
 
   const handleClick = () => {
-    mutate({ id: eventId });
-  };
+    if (session.data) {
+      mutate({ id: eventId })
+    } else {
+      router.push('/api/auth/signin')
+    }
+  }
 
   return (
     <button
@@ -22,5 +31,5 @@ export const JoinEventButton = ({
     >
       Присоединиться
     </button>
-  );
-};
+  )
+}

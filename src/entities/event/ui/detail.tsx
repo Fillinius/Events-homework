@@ -1,13 +1,22 @@
-import { RouterOutput } from "@/shared/api";
+import { RouterOutput } from '@/shared/api'
+import { useRouter } from 'next/router'
 
-type EventDetailProps = NonNullable<RouterOutput["event"]["findUnique"]>;
+type EventDetailProps = NonNullable<RouterOutput['event']['findUnique']>
 
 export const EventDetail = ({
   title,
   description,
   date,
   participations,
+  typeBtnEdit,
 }: EventDetailProps) => {
+  const router = useRouter()
+
+  const handleChangeEvent = () => {
+    router.push(`/events/${router.query.id}/edit`)
+  }
+  console.log(typeBtnEdit)
+
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -16,6 +25,14 @@ export const EventDetail = ({
         </h3>
       </div>
       <div className="mt-6 border-t border-gray-100">
+        {typeBtnEdit && (
+          <button
+            onClick={handleChangeEvent}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          >
+            Редактировать событие
+          </button>
+        )}
         <dl className="divide-y divide-gray-100">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
@@ -46,11 +63,18 @@ export const EventDetail = ({
               Участники
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {participations.map(({ user }) => user.name).join(", ")}
+              {participations.map(({ user }) => user.name).join(', ')}
             </dd>
           </div>
         </dl>
       </div>
+      <button
+        type="button"
+        className="text-sm font-semibold leading-6 py-1 px-3 bg-red-500 hover:bg-red-700 text-white"
+        onClick={() => router.push('/')}
+      >
+        Назад
+      </button>
     </div>
-  );
-};
+  )
+}
