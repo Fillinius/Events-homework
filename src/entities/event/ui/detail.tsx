@@ -18,7 +18,7 @@ export const EventDetail = ({
   console.log(typeBtnEdit)
 
   return (
-    <div>
+    <div className="m-5">
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Информация о событии
@@ -33,40 +33,40 @@ export const EventDetail = ({
             Редактировать событие
           </button>
         )}
-        <dl className="divide-y divide-gray-100">
+        <td className="divide-y divide-gray-100 ">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <tr className="text-sm font-medium leading-6 text-gray-900">
               Название
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            </tr>
+            <tr className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {title}
-            </dd>
+            </tr>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <tr className="text-sm font-medium leading-6 text-gray-900">
               Описание
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            </tr>
+            <tr className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {description}
-            </dd>
+            </tr>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <tr className="text-sm font-medium leading-6 text-gray-900">
               Дата проведения
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            </tr>
+            <tr className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {date.toLocaleDateString()}
-            </dd>
+            </tr>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <tr className="text-sm font-medium leading-6 text-gray-900">
               Участники
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            </tr>
+            <tr className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {participations.map(({ user }) => user.name).join(', ')}
-            </dd>
+            </tr>
           </div>
-        </dl>
+        </td>
       </div>
       <button
         type="button"
